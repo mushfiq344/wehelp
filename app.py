@@ -47,7 +47,7 @@ def condition():
 
 
 
-@app.route('/user', methods=['GET','PUT'])
+@app.route('/user', methods=['PUT'])
 def user():
 
 	user=Business()
