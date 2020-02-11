@@ -1,7 +1,7 @@
 from flask import Flask,render_template,url_for,jsonify,request,json
 # this is development branch 2
-from models.condition import Condition
-from models.user import User
+from classes.condition import Condition
+from classes.user import User
 # from dbconnect import connection
 app = Flask(__name__)
 # @app.route('/register', methods=["GET","POST"])
