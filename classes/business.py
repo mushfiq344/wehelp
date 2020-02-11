@@ -1,13 +1,36 @@
 from dbconnect import Dbconnect
 
-class User(Dbconnect):
-    def validatePutRequest(self,data):
-        if 'id' in data:
+class Business(Dbconnect):
+    # validate input condition from post request
+    def validateCondInputReq(self,text):
+        if len(text)>0:
             return 1
         else:
             return 0
     # inserting into condition table
+    def insertCondition(self,condition):
+        cur = self.conn.cursor()
+        cur.execute("INSERT INTO conditions	(condition_text) VALUES (%s)", [condition])
+        self.conn.commit()
+        cur.close()
 
+    # returning the last condition inserted
+    def getCondition(self):
+
+        cur = self.conn.cursor()
+        cur.execute("SELECT * from conditions where id=(select max(id) from conditions)", ())
+        self.conn.commit()
+        myresult = cur.fetchall()
+        cur.close()
+        return myresult
+
+    # validate user update request
+    def validateUserPutReq(self,data):
+        if 'id' in data:
+            return 1
+        else:
+            return 0
+    #update user
     def updateUser(self,user):
         cur = self.conn.cursor()
         start="UPDATE users SET "
@@ -37,6 +60,5 @@ class User(Dbconnect):
             return "Update Completed"
         else:
             return "Not Enough Parameters To Update"
-
-
 # c=cur;conn=mysql.connection
+

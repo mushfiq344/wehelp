@@ -1,7 +1,7 @@
 from flask import Flask,render_template,url_for,jsonify,request,json
 # this is development branch 2
-from classes.condition import Condition
-from classes.user import User
+from classes.business import Business
+
 # from dbconnect import connection
 app = Flask(__name__)
 # @app.route('/register', methods=["GET","POST"])
@@ -15,11 +15,11 @@ app = Flask(__name__)
 @app.route('/condition', methods=['GET', 'POST'])
 def condition():
 
-	condition=Condition()
+	condition=Business()
 
 	if request.method=='POST':
 
-		validated = condition.validateInputRequest(request.json['condition'])
+		validated = condition.validateCondInputReq(request.json['condition'])
 
 		if validated:
 			condition.insertCondition(request.json['condition'])
@@ -37,7 +37,7 @@ def condition():
 			)
 
 	if request.method == 'GET':
-		condition=Condition()
+		condition=Business()
 		response = app.response_class(response=json.dumps(condition.getCondition()),
 									  status=200,
 									  mimetype='application/json')
@@ -49,13 +49,11 @@ def condition():
 @app.route('/user', methods=['PUT'])
 def user():
 
-	user=User()
+	user=Business()
 
 	if request.method=='PUT':
 
-		validated = user.validatePutRequest(request.json)
-
-
+		validated = user.validateUserPutReq(request.json)
 		if validated:
 
 			response = app.response_class(
