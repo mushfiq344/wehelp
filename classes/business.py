@@ -9,19 +9,27 @@ class Business(Dbconnect):
             return 0
     # inserting into condition table
     def insertCondition(self,condition):
-        cur = self.conn.cursor()
-        cur.execute("INSERT INTO conditions	(condition_text) VALUES (%s)", [condition])
-        self.conn.commit()
-        cur.close()
+        try:
+            cur = self.conn.cursor()
+            cur.execute("INSERT INTO conditions	(condition_text) VALUES (%s)", [condition])
+            self.conn.commit()
+        except Exception as error:
+            print(str(error))
+        finally:
+            cur.close()
 
     # returning the last condition inserted
     def getCondition(self):
+        try:
+            cur = self.conn.cursor()
+            cur.execute("SELECT * from conditions where id=(select max(id) from conditions)", ())
+            self.conn.commit()
+            myresult = cur.fetchall()
+        except Exception as error:
+            print(str(error))
+        finally:
+            cur.close()
 
-        cur = self.conn.cursor()
-        cur.execute("SELECT * from conditions where id=(select max(id) from conditions)", ())
-        self.conn.commit()
-        myresult = cur.fetchall()
-        cur.close()
         return myresult
 
     # validate user update request
@@ -32,7 +40,6 @@ class Business(Dbconnect):
             return 0
     #update user
     def updateUser(self,user):
-        cur = self.conn.cursor()
         start="UPDATE users SET "
         end = " WHERE id=%s"
         params=[]
@@ -50,13 +57,18 @@ class Business(Dbconnect):
         start=start[:-1]
         sql=start+end
 
-
+        return  sql
         if totalParams>0:
             params.append(user['id'])
-            cur = self.conn.cursor()
-            cur.execute(sql, params)
-            self.conn.commit()
-            cur.close()
+
+            try:
+                cur = self.conn.cursor()
+                cur.execute(sql, params)
+                self.conn.commit()
+            except Exception as error:
+                print(str(error))
+            finally:
+                cur.close()
             return "Update Completed"
         else:
             return "Not Enough Parameters To Update"
