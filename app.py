@@ -22,6 +22,7 @@ def condition():
 		validated = condition.validateCondInputReq(request.json['condition'])
 
 		if validated:
+
 			condition.insertCondition(request.json['condition'])
 			response = app.response_class(
 				response=json.dumps(request.json['condition']),
@@ -48,28 +49,28 @@ def condition():
 
 @app.route('/user', methods=['GET','PUT'])
 def user():
-	return "hy"
-	# user=Business()
-	#
-	# if request.method=='PUT':
-	#
-	# 	validated = user.validateUserPutReq(request.json)
-	# 	if validated:
-	#
-	# 		response = app.response_class(
-	# 			response=json.dumps(user.updateUser(request.json)),
-	# 			status=200,
-	# 			mimetype='application/json'
-	# 		)
-	# 	else:
-	# 		response = app.response_class(
-	# 			response="Validation Failed",
-	# 			status=400,
-	# 			mimetype='application/json'
-	# 		)
-	#
-	#
-	# return response
+
+	user=Business()
+
+	if request.method=='PUT':
+
+		validated = user.validateUserPutReq(request.json)
+		if validated:
+
+			response = app.response_class(
+				response=json.dumps(user.updateUser(request.json)),
+				status=200,
+				mimetype='application/json'
+			)
+		else:
+			response = app.response_class(
+				response="Validation Failed",
+				status=400,
+				mimetype='application/json'
+			)
+
+
+	return response
 
 if __name__ == '__main__':
 	app.run(debug=True)

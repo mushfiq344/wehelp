@@ -17,6 +17,7 @@ class Business(Dbconnect):
             print(str(error))
         finally:
             cur.close()
+            print("Insert Completed")
 
     # returning the last condition inserted
     def getCondition(self):
@@ -26,11 +27,10 @@ class Business(Dbconnect):
             self.conn.commit()
             myresult = cur.fetchall()
         except Exception as error:
-            print(str(error))
+            return str(error)
         finally:
             cur.close()
-
-        return myresult
+            return myresult
 
     # validate user update request
     def validateUserPutReq(self,data):
@@ -57,7 +57,7 @@ class Business(Dbconnect):
         start=start[:-1]
         sql=start+end
 
-        return  sql
+
         if totalParams>0:
             params.append(user['id'])
 
@@ -66,10 +66,10 @@ class Business(Dbconnect):
                 cur.execute(sql, params)
                 self.conn.commit()
             except Exception as error:
-                print(str(error))
+                return str(error)
             finally:
                 cur.close()
-            return "Update Completed"
+                return "Update Completed"
         else:
             return "Not Enough Parameters To Update"
 # c=cur;conn=mysql.connection
