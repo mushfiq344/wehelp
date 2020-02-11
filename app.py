@@ -1,8 +1,5 @@
 from flask import Flask,render_template,url_for,jsonify,request,json
-
-# from practice to development
-
-
+# this is development branch 2
 from models.condition import Condition
 from models.user import User
 # from dbconnect import connection
